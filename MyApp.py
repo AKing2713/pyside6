@@ -1,27 +1,33 @@
 import sys
-from PySide6.QtCore import QSize, Qt
-from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton
-# Subclass QMainWindow to customize your application's main window
+from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QVBoxLayout, QWidget
+
 class MainWindow(QMainWindow):
+
     def __init__(self):
         super().__init__()
-
-        self.button_is_checked = True
-
+        
+        # Set the window title
         self.setWindowTitle("My App")
 
-        self.button = QPushButton("Press Me!")
-        self.button.setCheckable(True)
-        self.button.released.connect(self.the_button_was_released)
-        self.button.setChecked(self.button_is_checked)
+        # A simple label
+        self.label = QLabel()
+
+        # Set input box
+        self.input = QLineEdit()
+        # Connects to the label and changes the text based on what the user types
+        self.input.textChanged.connect(self.label.setText)
+
+        # Define a layout
+        layout = QVBoxLayout()
+        layout.addWidget(self.input)
+        layout.addWidget(self.label)
+
+        # Create a custom widget
+        container = QWidget()
+        container.setLayout(layout)
 
         # Set the central widget of the Window.
-        self.setCentralWidget(self.button)
-
-    def the_button_was_released(self):
-        self.button_is_checked = self.button.isChecked()
-
-        print(self.button_is_checked)
+        self.setCentralWidget(container)
 
 app = QApplication(sys.argv)
 
